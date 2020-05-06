@@ -1,0 +1,191 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->  
+    <head>
+        <meta charset="utf-8" />
+        <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' /><![endif]-->
+
+        <title>
+        {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+        </title>
+
+        {% if page_description %}
+        <meta name="description" content="{{ page_description | escape }}" />
+        {% endif %}
+
+        <link rel="canonical" href="{{ canonical_url }}" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+        <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" type="image/x-icon">
+        <link rel="icon" href="{{ 'favicon.ico' | asset_url }}" type="image/x-icon">
+
+        {% include 'open-graph-tags' %}
+        {% include 'twitter-card' %}
+
+        {{ content_for_header }}
+
+        {{ 'application.css' | asset_url | stylesheet_tag }}
+        {{ 'social/social-icons.css' | global_asset_url | stylesheet_tag }}
+        <!-- {{ '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' | stylesheet_tag }} -->
+
+        {{ '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Montserrat' | stylesheet_tag }}
+
+        <!--[if lt IE 9]>
+        {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+        <![endif]-->
+
+        {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+        {% if template contains 'customers' %}
+        {{ 'customer_area.js' | shopify_asset_url | script_tag }}
+        {% endif %}
+
+        <!-- Additional Shopify helpers that will likely be added to the global shopify_common.js some day soon. -->
+        {{ 'shopify_common.js' | asset_url | script_tag }}
+
+        {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+        
+        {{ 'preroll.min.js' | asset_url | script_tag }}
+
+        {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+        <script>jQuery('html').removeClass('no-js').addClass('js');</script>
+    </head>
+    <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
+        <div id="pushdown-wrapper">
+            <!--[if lt IE 8]>
+                <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+            <![endif]-->
+
+            <!-- ===================== header & navigation ===================== -->
+            <header>
+                <a href="#mission" class="sr-only">Skip to main content</a>
+                <nav class="navbar navbar-default navbar-fixed-top{% unless template == 'index' %} navbar-inverse{% endunless %}" role="navigation">
+                    <div class="container">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <!-- <a class="navbar-brand" href="/">StepsByStephens</a> -->
+                            <a class="navbar-brand" href="{% unless template == 'index' %}/{% endunless %}#slideshow" {% unless template != 'index' %}data-toggle="collapse" data-target="#navbar-collapse"{% endunless %}>{{ 'SBS_WorldLogo_compact.png' | asset_url | img_tag: shop.name }}</a>
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <i class="fa fa-bars no-click"></i>
+                            </button>
+                        </div>
+                        <!-- Collect the nav links, forms, and other coctent for toggling -->
+                        <div id="navbar-collapse" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                {% for link in linklists.main-menu.links %}
+                                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                            <div id="cart-cust">
+                                <div class="cart-link">
+                                    <a href="/cart"><img src="{{ 'cart.svg' | asset_url }}" />{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }}<span class="cart-price"> ({{ cart.total_price | money }})</span></a>
+                                </div>
+
+                                {% if shop.customer_accounts_enabled %}
+                                <div class="customer-links">
+                                    {% if customer %}
+                                        Hi, <a href="/account">{{ customer.first_name  | capitalize }}</a> · {{ 'Log out' | customer_logout_link }}
+                                    {% else %}
+                                    {{ 'Log in' | customer_login_link }}
+                                        {% if shop.customer_accounts_optional %}
+                                        or {{ 'Create an account' | customer_register_link }}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                <div id="social-header" class="visible-lg">
+                                    {% include 'social-links' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+            {% if template == 'index' %}
+                {% comment %}
+                Many SEO audit tools look for a h1 tag on the home page. Let's give 'em one.
+                Other pages should use the resource name as h1 tag. For example, on the product
+                page, the product title will use a h1 tag.
+                {% endcomment %}
+
+                <h1 class="hidden">{{ shop.name }}</h1>
+            {% endif %}
+
+            {% comment %}}
+            We have a template file to render.
+            That's what content_for_layout is for.
+            {% endcomment %}
+            
+            <div id="content">
+                {{ content_for_layout }}
+            </div>
+
+            <!-- ===================== footer ===================== -->
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-2 col-sm-offset-3">
+                            <h4>Quick Links</h4>
+                            {% if linklists.footer.links.size > 0 %}
+                            <ul role="navigation">
+                                {% for link in linklists.footer.links %}
+                                    <li><a href="{{ link.url }}" title="{{ link.title }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-12 col-sm-2 connected">
+                            <h4>Get Connected</h4>
+                            {% include 'social-links' %}
+                        </div>
+                        <div class="col-xs-12 col-sm-2 col-sm-offset-1">
+                            <h4>Help</h4><!-- todo: make this into a linked list? -->
+                            <ul role="navigation">
+                                <li><a href="mailto:support@stepsbystephens.com">Support</a></li>
+                                <li><a href="mailto:sales@stepsbystephens.com">Sales Assistance</a></li>
+                                <li><a href="/pages/returns">Returns &amp; Exchanges</a></li>
+                                <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+                                <li><a href="/pages/terms-of-service">Terms Of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12"><hr /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 payments">
+                            {% unless shop.enabled_payment_types == empty %}
+                            <h4>Accepted Payments</h4>
+                            <div class="payment-types">
+                                {% for type in shop.enabled_payment_types %}
+                                <img width="40" src="{{ type | payment_type_img_url }}" title="{{ type }}" />
+                                {% endfor %}
+                            </div>
+                            {% endunless %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p role="contentinfo" class="small-print">
+                            Copyright &copy; {{ "now" | date: "%Y" }} {{ shop.name }}.<br />
+                            This site was created by <a href="#" target="_blank">ErgoDark LLC</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div id="overlay" class="invis">
+            <img id="overlay-img" class="absolute-center" src="" />
+        </div>
+
+        {{ 'shop.js' | asset_url | script_tag }}
+        {{ 'bootstrap.min.js' | asset_url | script_tag }}
+        {{ 'mootools.min.js' | asset_url | script_tag }}
+        {{ 'application.min.js' | asset_url | script_tag }} <!-- use min version in production -->
+    </body>
+</html>

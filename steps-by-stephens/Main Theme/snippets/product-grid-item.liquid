@@ -1,0 +1,47 @@
+{% comment %}
+It may be a good idea to provide a theme setting that lets a merchant decide how many products to show per row
+on collection pages. Or, it may be a good idea to provide a control on the store front which lets a shopper decide 
+whether items be presented in a grid or in a list.
+That information about the presentation can be passed on to the product-grid-item.liquid snippet via the 'with' argument.
+Use of the 'with' argument is explained here: http://docs.shopify.com/themes/theme-templates/snippets.
+The information can then be referred to by accessing the variable which goes by the same name as the snippet,
+in this case product-grid-item. If the 'with' argument is not used, the snippet variable is set to an empty string.
+Here, for the sake of teaching, we will use 2 presentation options:
+- 3 products per row, when passing the value 'three-per-row' to the snippet
+- 4 products per row, when passing the value 'four-per-row' to the snippet
+{% endcomment %}
+
+{% comment %}If no value is passed to the snippet, we will set the snippet variable to a sensible default.{% endcomment %}
+{% if product-grid-item == '' %}{% assign product-grid-item = 'three-per-row' %}{% endif %}
+
+{% comment %}Is this product on sale?{% endcomment %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+<div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="panel panel-default pull-left {{ product-grid-item }}{% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% if product-grid-item == 'four-per-row' %}{% cycle 'last': '', '', '', ' last-in-row' %}{% elsif product-grid-item == 'three-per-row' %}{% cycle 'last': '', '', ' last-in-row' %}{% endif %}">
+
+        <div class="panel-body">
+            <a href="{{ product.url | within: collection }}">
+                <img src="{{ product | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+            </a>
+        </div>
+      
+        <div class="panel-footer">
+            <a href="{{ product.url | within: collection }}">{{ product.title }}</a><br />
+            <span class="prod-price">
+                {% if product.price_varies %}From{% endif %}
+                {{ product.price | money }}
+                {% if on_sale %}
+                <s class="compare-at-price">{{ product.compare_at_price | money }}</s>
+                {% endif %}
+            </span>
+            {% comment %}
+            All themes by Shopify should support the Product Reviews app out of the box.
+            https://apps.shopify.com/product-reviews
+            {% endcomment %}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+        </div>
+    </div>
+</div>

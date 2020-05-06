@@ -1,0 +1,6 @@
+assets/less
+*\.psd
+\.git*
+*/\.git*
+assets/includes/head.php
+.htaccess

@@ -1,0 +1,105 @@
+{% comment %}
+  Important notes about pagination:
+  - Never access collection.products before the opening paginate tag.
+  - Never paginate by more than 50.
+{% endcomment %}
+
+{% assign products_per_page = settings.products_per_row | times: settings.number_of_rows %}
+{% assign numbers = 'one, two, three, four, five, six' | split: ',' %}
+{% assign products_per_row = settings.products_per_row | minus: 1 %}
+{% assign products_per_row = numbers[products_per_row] | strip | append: '-per-row' %}
+
+{% paginate collection.products by products_per_page %}
+
+{% comment %}
+  Re-use the .rte class wherever you output content that was added by a merchant using
+  the Rich Text Editor ( 'rte' stands for rich text editor ).
+  Style all HTML elements in that content the same way across the board.
+  Use the .rte class in your CSS to help maintain consistency.
+  Example: the h2 element should have the same size and color in:
+  - product descriptions
+  - collection descriptions
+  - page content
+  - blog post
+{% endcomment %}
+
+<div class="container" id="storefront">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="text-align-centered">{{ collection.title }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-3 col-sm-push-9">
+            <div class="sorting">
+                <p>
+                    List by:
+                    <select class="sort-by right">
+                        <option value="manual">Featured</option>
+                        <option value="price-ascending">Price: Low to High</option>
+                        <option value="price-descending">Price: Hight to Low</option>
+                        <option value="title-ascending">A-Z</option>
+                        <option value="title-descending">Z-A</option>
+                        <option value="created-ascending">Oldest to Newest</option>
+                        <option value="created-descending">Newest to Oldest</option>
+                        <option value="best-selling">Best Selling</option>
+                    </select>
+                </p>
+                <ul class="list-group">
+                    <li class="list-group-item disabled">Filter Products</li>
+                    {% if collection.all_tags.size <= 0 %}
+                    <li>(there are no tagged items yet)</li>
+                    {% else %}
+                    <li class="list-group-item {% unless current_tags %} active{% endunless %}">
+                        {{ 'Show Everything' | link_to_remove_tag: current_tags.first }}
+                    </li>
+                    {% for tag in collection.all_tags %}
+                    {% if current_tags contains tag %}
+                    <li class="list-group-item active">
+                        {{ tag | link_to_remove_tag: tag }}
+                    </li>
+                    {% else %}
+                    <li class="list-group-item">
+                        {{ tag | link_to_tag: tag }}
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-sm-pull-3">
+            <div class="row">
+                {% for product in collection.products %}
+                {% include 'product-grid-item' with products_per_row %}
+                {% assign val1 = forloop.index | modulo: 2 %}
+                {% assign val2 = forloop.index | modulo: 3 %}
+                {% if val1 == 0 %}<div class="clearfix visible-sm-block"></div>{% endif %}
+                {% if val2 == 0 %}<div class="clearfix hidden-xs hidden-sm"></div>{% endif %}
+                {% else %}
+                    <h3>We do not have any products in our store at the moment. Please check back a little later.</h3>
+                {% endfor %}
+                <br style="clear:both" />
+                {% if paginate.pages > 1 %}
+                <div class="text-align-centered">
+                    {{ paginate | default_pagination }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    {% endpaginate %}
+
+    {% comment %}
+      JavaScript for collection sorting.
+    {% endcomment %}
+    <script>
+    jQuery('.sort-by')
+      .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+      .on('change', function() {
+        Shopify.queryParams.sort_by = jQuery(this).val();
+        location.search = jQuery.param(Shopify.queryParams);
+      });
+    </script>
+</div>

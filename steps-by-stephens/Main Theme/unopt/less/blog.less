@@ -1,0 +1,14 @@
+body.template-blog {
+    #content .container {
+        margin-top: @default-section-padding;
+        @media (max-width: @screen-xs-max) { margin-top: 0; }
+
+        .article {
+            margin-top: 60px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+}

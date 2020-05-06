@@ -1,0 +1,118 @@
+<!-- ===================== slideshow ===================== -->
+<section id="slideshow" class="viewport-sized">
+    <div class="canvas">
+        <img src="" alt="" class="absolute-center" />
+    </div>
+    <p class="loading vertical-center"></p>
+    <div class="container vertical-center">
+        <div class="row text-center">
+            <div class="hidden-xs hidden">
+                {% for link in linklists.main-menu.links %}
+                <a href="{{ link.url }}" class="circle smallcaps">{{ link.title | downcase }}<span></span></a>
+                {% endfor %}
+                <br class="clearfix" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== lookbook ===================== -->
+<section id="lookbook">
+    <div class="container-fluid">
+    {% unless collections['Lookbook'].empty? %}
+    {% assign collection = collections['Lookbook'] %}
+        <div class="row">
+            {% for product in collection.all_products %}
+            <div class="lookbook-row-wrapper col-xs-12" data-lookbook-starton="middle">
+                <div class="lookbook-inner-row">
+                    {% for image in product.images %}
+                    <a href="{{ image | product_img_url: '1024x1024' }}" class="thumbnail">
+                        <img
+                            src="{{ image | product_img_url: 'medium' }}"
+                            alt="{% if image.alt contains product.title %}{{ product.description }}{% else %}{{ image.alt | escape }}{% endif %}"
+                            data-img-master="{{ image | product_img_url: 'master' }}"
+                        >
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <h3>{{ product.description }}</h3>
+            <div class="controls">
+                <ul class="pagination">
+                    <li>
+                        <a
+                            href="#"
+                            class="scroll-left lookbook-control"
+                            data-lookbook-target=".lookbook-row-wrapper"
+                            data-lookbook-direction="left"
+                        >&laquo;</a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            class="scroll-right lookbook-control"
+                            data-lookbook-target=".lookbook-row-wrapper"
+                            data-lookbook-direction="right"
+                        >&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    {% endunless %}
+    </div>
+</section>
+
+<!-- ===================== mission ===================== -->
+<section id="mission">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                {% if settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
+                <p>
+                    Modify your Landing Page content in order to add text here.
+                    <a href="http://www.shopify.com/admin/pages">Why not add some now?</a>
+                </p>
+                {% else %}
+                {% assign page = pages[settings.homepage_page] %}
+                <div class="rte">
+                    {{ page.content }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== contact ===================== -->
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                {% if pages['contact'].empty? %}
+                <p>
+                    Modify your Contact page content in order to add text here.
+                    <a href="http://www.shopify.com/admin/pages">Why not add some now?</a>
+                </p>
+                {% else %}
+                {% assign page = pages['contact'] %}
+                    {{ page.content }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+var imgdata = [{% unless settings.homepage_collection == blank or collections[settings.homepage_collection].empty? %}
+{% assign collection = collections[settings.homepage_collection] %}
+{% for product in collection.all_products %}
+{% for image in product.images %}
+{
+    img: {{ image | product_img_url | replace:'_small','_1024x1024' | json }},
+    alt: {% if image.alt contains product.title %}null{% else %}{{ image.alt | escape | json }}{% endif %}
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+{% endfor %}
+{% endunless %}];
+</script>

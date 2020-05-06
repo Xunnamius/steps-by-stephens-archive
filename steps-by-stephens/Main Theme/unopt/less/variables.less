@@ -1,0 +1,92 @@
+// Single primary color that all mixins use. Str8 ballin.
+@primary:        @brand-primary;
+ 
+// Primary Variants
+@primaryLight:   hsl(hue(@primary), 100%, 70%);
+@primaryDark:    hsl(hue(@primary), 60%, 40%);
+@primaryFaded:   hsl(hue(@primary), 60%, 65%);
+ 
+// 180degree Variants
+@variant:         spin((@primary), 180);
+@variantLight:    hsl(hue(@variant), 100%, 70%);
+@variantDark:     hsl(hue(@variant), 60%, 40%);
+@variantFaded:    hsl(hue(@variant), 60%, 65%);
+ 
+// 90degree Variants
+@corner:         spin((@primary), 70);
+@cornerLight:    hsl(hue(@corner), 100%, 70%);
+@cornerDark:     hsl(hue(@corner), 60%, 40%);
+@cornerFaded:    hsl(hue(@corner), 60%, 65%);
+
+// Globals
+@link-color: @brand-primary;
+@text-color: black;
+@consistentPadding: 35px;
+@default-section-padding: 75px;
+@header-padding-top: 15px; // For stuff in the header that needs padding-top (not brand)
+
+// Font
+@font-family-base: 'Open Sans', @font-family-sans-serif;
+@headings-font-family: Montserrat, @font-family-sans-serif;
+@icon-font-path: '';
+@fa-font-path: '../assets';
+
+@media (min-width: @screen-sm-min) {
+    @font-size-base: 16px;
+}
+
+// Basics of a navbar
+@navbar-color-primary:             white;
+@navbar-height:                    63px;
+@navbar-margin-bottom:             @line-height-computed;
+@navbar-border-radius:             @border-radius-base;
+@navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
+@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+@navbar-collapse-max-height:       340px;
+
+@navbar-default-color:             white;
+@navbar-default-bg:                transparent;
+@navbar-default-border:            transparent;
+
+// Navbar links
+@navbar-default-link-color:                white;
+@navbar-default-link-hover-color:          @primary;
+@navbar-default-link-hover-bg:             transparent;
+@navbar-default-link-active-color:         @primary;
+@navbar-default-link-active-bg:            transparent;
+@navbar-default-link-disabled-color:       darken(@primary, 75%);
+@navbar-default-link-disabled-bg:          transparent;
+
+// Navbar toggle
+@navbar-default-toggle-hover-bg:           transparent;
+@navbar-default-toggle-icon-bar-bg:        white;
+@navbar-default-toggle-border-color:       transparent;
+
+// Inverted navbar
+// Reset inverted navbar basics
+@navbar-inverse-color:                      white;
+@navbar-inverse-bg:                         #111;
+@navbar-inverse-border:                     darken(@navbar-inverse-bg, 10%);
+
+// Inverted navbar links
+@navbar-inverse-link-color:                 @navbar-default-link-color;
+@navbar-inverse-link-hover-color:           @navbar-default-link-hover-color;
+@navbar-inverse-link-hover-bg:              @navbar-default-link-hover-bg;
+@navbar-inverse-link-active-color:          @navbar-default-link-active-color;
+@navbar-inverse-link-active-bg:             @navbar-default-link-active-bg;
+@navbar-inverse-link-disabled-color:        @navbar-default-link-disabled-color;
+@navbar-inverse-link-disabled-bg:           @navbar-default-link-disabled-bg;
+
+// Inverted navbar brand label
+@navbar-inverse-brand-color:                @navbar-inverse-link-color;
+@navbar-inverse-brand-hover-bg:             transparent;
+
+// Inverted navbar toggle
+@navbar-inverse-toggle-hover-bg:            transparent;
+
+// Buttons
+@btn-default-bg:                 @variantDark;
+@btn-default-border:             @variantDark;
+
+// Block quotes
+@blockquote-font-size:        @font-size-base;

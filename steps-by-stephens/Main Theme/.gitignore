@@ -1,0 +1,36 @@
+# Special    #
+##############
+*.sublime-*
+node_modules/
+Gruntfile.js
+config.yml
+/_site
+assets/logo.png
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+nbproject
+.~lock.*
+.buildpath
+.idea
+.project
+.settings
+.*.sw*
+.*.un~
+.settings/
+build/
+tmp/

@@ -1,0 +1,170 @@
+/**
+ * Layering 2 images in a background, and using "background-cover" so the bottom
+ * layer is always full size. Good for scrolling fixed backgrounds where you want
+ * a screen or other element on top.
+ * 
+ * Useful with public/assets/img/grid.png
+ * 
+ * Example: .background-layers('the-top-image.png', 'the-bottom-image.jpg');
+ */
+.background-layers(@top, @bottom) {
+    background: url(@top), url(@bottom);
+    background-position: top center, top center;
+    background-attachment: fixed, fixed;
+    background-repeat: repeat, repeat;
+    -webkit-background-size: auto, cover;
+    -moz-background-size: auto, cover;
+    -o-background-size: auto, cover;
+    background-size: auto, cover;
+}
+
+/**
+ * Allow a background to spand the entirety of an element, maintaining its
+ * aspect ratio and the like.
+ *
+ * Example: .background-cover();
+ */
+.background-cover(@cover: cover) {
+    -webkit-background-size: @cover;
+    -moz-background-size: @cover;
+    -o-background-size: @cover;
+    background-size: @cover;
+}
+
+/**
+ * An addendum to the above, but for IE8 and below.
+ *
+ * Example: .background-cover-ie('img.jpg');
+ *
+ * Note that this should be used ONLY on a fixed position div of 100% w/h!
+ */
+.background-cover-ie(@image) {
+    background-image: url(@image);
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=@image, sizingMethod='scale');
+    -ms-filter: ~"progid:DXImageTransform.Microsoft.AlphaImageLoader(src=@{image}, sizingMethod='scale')";
+}
+
+/**
+ * Set the text highlight color and background color for an element.
+ * 
+ * Example: .highlight(@yourColor, @white);
+ */
+.highlight(@backgroundColor, @textColor) {
+    ::selection, -moz::selection {
+        background: @backgroundColor;
+        color: @textColor;
+    }
+}
+
+/**
+ * Easy black text shadow.
+ *
+ * Example: .textShadowBlack();
+ */
+.textShadowBlack(@shadow: 0 1px 0px rgba(0, 0, 0, 1)) {
+    -webkit-text-shadow: @shadow;
+    -moz-text-shadow: @shadow;
+    text-shadow: @shadow;
+}
+
+/**
+ * Easy white text shadow.
+ *
+ * Example: .textShadowWhite();
+ */
+.textShadowWhite(@shadow: 0 1px 0px rgba(255, 255, 255, 1)) {
+    -webkit-text-shadow: @shadow;
+    -moz-text-shadow: @shadow;
+    text-shadow: @shadow;
+}
+
+/**
+ * Removes styles from unordered lists and display its elements as inline.
+ *
+ * Example: .ul-inline-no-style();
+ */
+.ul-inline-no-style() {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    .clearfix;
+
+    li {
+        float: left;
+        display: block;
+    }
+}
+
+/**
+ * Removes styles from unordered lists and display its elements as block.
+ *
+ * Example: .ul-block-no-style();
+ */
+.ul-block-no-style() {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    .clearfix;
+}
+
+/**
+ * Colors text as a shade of gray.
+ *
+ * Example: .gray(67);
+ */
+.gray(@percent) {
+  color: lighten(@black, percentage(@percent / 100));
+}
+
+/**
+ * Sets up a border radius.
+ *
+ * Example: .border-radius(25px);
+ */
+.border-radius(@radius: 5px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius:    @radius;
+    border-radius:         @radius;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}
+
+/**
+ * Sets up a more precise border radius.
+ *
+ * Example: .border-radius(25px, 10px, 15px, 25px);
+ */
+.border-radiuses(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+    -webkit-border-top-right-radius:    @topright;
+    -webkit-border-bottom-right-radius: @bottomright;
+    -webkit-border-bottom-left-radius:  @bottomleft;
+    -webkit-border-top-left-radius:     @topleft;
+
+    -moz-border-radius-topright:        @topright;
+    -moz-border-radius-bottomright:     @bottomright;
+    -moz-border-radius-bottomleft:      @bottomleft;
+    -moz-border-radius-topleft:         @topleft;
+
+    border-top-right-radius:            @topright;
+    border-bottom-right-radius:         @bottomright;
+    border-bottom-left-radius:          @bottomleft;
+    border-top-left-radius:             @topleft;
+
+    -moz-background-clip:    padding;
+    -webkit-background-clip: padding-box;
+    background-clip:         padding-box;
+}
+
+/**
+ * Makes something unselectable
+ *
+ * Example: .unselectable();
+ */
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

@@ -1,0 +1,28 @@
+body.template-collection {
+    #storefront {
+        margin-top: @default-section-padding;
+        @media (max-width: @screen-xs-max) { margin-top: 0; }
+        
+        .sorting {
+            text-align: center;
+
+            .list-group {
+                margin: 25px auto;
+                width: 158px;
+                text-align: center;
+
+                li.active a {
+                    color: white;
+                }
+            }
+        }
+
+        .panel img {
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: @default-section-padding;
+        }
+    }
+}

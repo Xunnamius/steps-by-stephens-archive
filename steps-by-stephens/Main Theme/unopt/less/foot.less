@@ -1,0 +1,62 @@
+footer {
+    background-color: #eee;
+    padding-top: @default-section-padding;
+
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    ul {
+        .ul-block-no-style();
+    }
+
+    @media (max-width: @screen-sm-min) {
+        text-align: center;
+
+        .row:first-child > div {
+            margin-top: @default-section-padding / 2;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
+    .connected {
+        text-align: center;
+
+        a {
+            font-size: 26pt;
+        }
+    }
+
+    .payments {
+        text-align: center;
+
+        .payment-types img {
+            .opacity(0.3);
+
+            &:hover {
+                .opacity(1);
+            }
+        }
+    }
+
+    .small-print {
+        margin-top: 25px;
+        text-align: center;
+    }
+}
+
+// Make sure the footer stays at the foot of the page
+#pushdown-wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+// padding-bottom of the content div is set by javascript to be the height of the footer
+#content {
+    padding-bottom: 475px;
+     @media (max-width: @screen-xs-max) { padding-bottom: 735px; }
+}

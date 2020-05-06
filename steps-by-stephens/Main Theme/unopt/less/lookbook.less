@@ -1,0 +1,57 @@
+.mini-lookbook {
+    overflow: hidden;
+    
+    .thumbnail {
+        width: 250px;
+        margin: 0 35px;
+        float: left;
+
+        position: relative;
+        top: 17px;
+
+        &.wait {
+            cursor: wait;
+        }
+    }
+
+    .lookbook-inner-row {
+        /* width: 1600px; determined by JavaScript */
+        height: 260px;
+        position: relative;
+        overflow-y: hidden;
+        top: 0;
+        left: 0;
+    }
+
+    .lookbook-row-wrapper {
+        padding-left: 5px;
+    }
+
+    .container-fluid > .row {
+        overflow: hidden;
+    }
+}
+
+#lookbook {
+    padding: @default-section-padding 0;
+
+    background-color: white;
+    background-image: -webkit-linear-gradient(to bottom, #CCC 0, #FFF 2%, #FFF 40%, #eee 100%);  // Safari 5.1-6, Chrome 10+
+    background-image: -o-linear-gradient(to bottom, #CCC 0, #FFF 2%, #FFF 40%, #eee 100%);  // Opera 12
+    background-image: linear-gradient(to bottom, #CCC 0, #FFF 2%, #FFF 40%, #eee 100%); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+    background-repeat: repeat-x;
+
+    text-align: center;
+
+    .mini-lookbook();
+
+    .thumbnail {
+        -webkit-box-reflect: below 0px linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.2) 200%);
+        // Todo: maybe something for Firefox or whatever
+    }
+
+    h3 {
+        font-weight: bold;
+        .textShadowWhite();
+    }
+}

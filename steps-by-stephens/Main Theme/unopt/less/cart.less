@@ -1,0 +1,43 @@
+@local-margin: 15px;
+
+body.template-cart {
+    #content .container {
+        margin-top: @default-section-padding;
+
+        @media (max-width: @screen-xs-max)
+        
+        {
+            margin-top: 0;
+            font-size: 0.85em;
+            
+            table {
+                margin-top: @default-section-padding / 2;
+            }
+        }
+
+        input[type="number"] {
+            width: 50px;
+        }
+
+        .total {
+            min-width: 67px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+        }
+
+        .additional-checkout-buttons {
+            margin-top: @local-margin;
+        }
+
+        h3.gamma {
+            margin-bottom: @local-margin;
+        }
+    }
+}
+
+@-moz-document url-prefix() {
+    fieldset { display: table-cell; }
+}

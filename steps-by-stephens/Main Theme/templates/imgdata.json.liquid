@@ -1,0 +1,9 @@
+[{% unless settings.homepage_collection == blank or collections[settings.homepage_collection].empty? %}
+{% assign collection = collections[settings.homepage_collection] %}
+{% for product in collection.all_products %}
+{
+    img: {{ product.featured_image | product_img_url | json }},
+    alt: {{ product.featured_image.alt | escape | json }}
+}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+{% endunless %}]

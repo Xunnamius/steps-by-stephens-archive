@@ -1,0 +1,6 @@
+{
+    "license": "BSD-3-Clause",
+    "require": {
+        "twbs/bootstrap": "~3.1"
+    }
+}

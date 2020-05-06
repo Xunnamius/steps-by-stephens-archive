@@ -1,0 +1,68 @@
+{% paginate article.comments by 50 %}
+
+{% comment %}
+When a comment has just been submitted, it's not shown right away.
+Shopify needs to wait until it knows for sure that it is not spam to publish it.
+We can still show right away *to its author* the comment he just submitted 
+— although that comment may not have been published yet.
+When a comment is submitted, the browser is redirected to a page that 
+includes the new comment id in its URL. Example:
+http://shopname.myshopify.com/blogs/news/2022072-my-post?comment=3721372
+When a comment ID is specified in an article URL, that comment is accessible in the 
+template through a Liquid object called comment. 
+That comment is a full-fledged comment variable that has all the regular comment properties: 
+http://docs.shopify.com/themes/liquid-variables/comment.
+Note that comment.created_at will only be defined if the comment did not have any blank field 
+— was posted without error.
+{% endcomment %}
+
+{% assign number_of_comments = article.comments_count %}
+
+{% comment %}If a comment was just submitted, and it has no blank fields.{% endcomment %}
+{% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="article">
+                <h1 class="title">{{ article.title }} <small>(<a href="{{ blog.url }}">{{ blog.title }}</a>)</small></h1>
+                <h3 class="date">
+                    <time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%b %d, %Y' }}</time>
+                </h3>
+                <div class="rte">{{ article.content }}</div>
+                <div class="meta">
+                {% if blog.comments_enabled? and article.comments_count > 0 %}
+                    <span class="meta-comments">
+                        <a href="#comments"><i class="fa fa-comment"></i> {{ article.comments_count }} {{ article.comments_count | pluralize: 'comment','comments' }}</a>
+                    </span>
+                {% endif %}
+                {% if article.tags.size > 0 %}
+                    <span class="tags">
+                    {% for tag in article.tags %} 
+                        <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{% if forloop.first %}<i class="fa fa-tag"></i> {% endif %}{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+                    {% endfor %}
+                    </span>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {% if blog.next_article or blog.previous_article %}
+            <p class="prevnext"> 
+                {% if blog.next_article %}
+                <span class="pull-right">{{ 'Next Post &rarr;' | link_to: blog.next_article }}</span>
+                {% endif %}    
+                {% if blog.previous_article %}
+                <span class="pull-left">{{ '&larr; Previous Post' | link_to: blog.previous_article }}</span>
+                {% endif %}
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endpaginate %}

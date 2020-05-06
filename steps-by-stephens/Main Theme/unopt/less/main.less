@@ -1,0 +1,135 @@
+html,
+body {
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*
+ * Allow only vertical resizing of textareas
+ */
+textarea {
+    resize: vertical;
+}
+
+/*
+ * Chrome (UI) frame prompt
+ */
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+    position: fixed;
+    bottom: -3px;
+    z-index: 999;
+}
+
+/*
+ * Prevent Skype from screwing up our layout
+ */
+span.skype_pnh_container {
+    display: none !important;
+}
+
+span.skype_pnh_print_container {
+    display: inline !important;
+}
+
+/*
+ * For the vertical centering of things
+ */
+.vertical-center,
+.horizontal-center,
+.absolute-center,
+.viewport-sized {
+    position: relative;
+}
+
+/* Purdy text */
+.text-black {
+    color: #343;
+}
+
+.text-superbold {
+    color: @primaryFaded;
+    font-weight: bold;
+}
+
+.text-bluebold {
+    color: @variantDark;
+    font-weight: bold;
+}
+
+/* A few more global stylings */
+a:hover {
+    outline: none;
+    outline-offset: 0;
+    text-decoration: none;
+}
+
+a:focus, a:active {
+    outline: none;
+    outline-offset: 0;
+    text-decoration: none;
+}
+
+.smallcaps {
+    font-variant: small-caps;
+}
+
+.-template-animation {
+    0% { .scale(1); }
+    30% { .scale(1); }
+    40% { .scale(1.08); }
+    50% { .scale(1); }
+    60% { .scale(1); }
+    70% { .scale(1.05); }
+    80% { .scale(1); }
+    100% { .scale(1); }
+}
+
+.-single-template-animation(@property: color, @time: 0.5s) {
+    transition: @property @time ease;
+}
+
+.to-top() {
+    position: relative;
+    z-index: 99;
+}
+
+.text-align-centered {
+    text-align: center;
+}
+
+body {
+    padding-top: 99px;
+    overflow: auto;
+
+    &.template-index {
+        padding-top: 0;
+    }
+}
+
+#overlay {
+    margin: 0;
+    padding: 0;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 999999;
+    background-color: black;
+    opacity: 0.99;
+
+    img {
+        max-width: 99%;
+        max-height: 99%;
+    }
+
+    &.invis {
+        visibility: hidden;
+    }
+}

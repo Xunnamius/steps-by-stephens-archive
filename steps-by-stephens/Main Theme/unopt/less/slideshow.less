@@ -1,0 +1,110 @@
+section#slideshow {
+    background-color: #F7F3E6;
+    overflow: hidden;
+
+    .loading {
+        margin: 0 auto;
+        text-align: center;
+        background: url('ajax-loader.gif') center center no-repeat;
+        width: 340px;
+        height: 128px;
+        position: relative;
+
+        &:after {
+            content: "Loading awesome stuff...";
+            position: relative;
+            top: 150px;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        &.error {
+            z-index: 99999;
+            .opacity(1);
+            background: none;
+            color: maroon;
+            font-weight: bold;
+        }
+
+        &.error:after {
+            content: '';
+        }
+    }
+    
+    .canvas {
+        position: absolute;
+
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        .opacity(.75);
+
+        img {
+            width: 1920px;
+            height: 1280px;
+        }
+    }
+
+    .container {
+        height: 180px;
+
+        .circle,
+        .circle span {
+            display: block;
+            position: relative;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.35);
+            .border-radius(120px);
+            //.unselectable();
+        }
+
+        .circle {
+            width: 120px;
+            height: 120px;
+            float: left;
+            margin: 0 50px;
+            font-size: 18px;
+            line-height: 120px;
+            color: white;
+
+            font-family: 'Arial Unicode Ms', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+            &:first-child {
+                margin-left: 195px;
+            }
+
+            span {
+                width: 0;
+                height: 0;
+                top: -62px;
+                left: 55px;
+            }
+
+            @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+                margin: 0 30px;
+
+                &:first-child {
+                    margin-left: 45px;
+                }
+            }
+
+            @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+                margin: 0 30px;
+
+                &:first-child {
+                    margin-left: 165px;
+                }
+            }
+        }
+
+        div.row > div {
+            max-height: 120px;
+
+            .clearfix {
+                clear: both;
+            }
+        }
+    }
+}
